@@ -15,20 +15,24 @@ Requirements:
 3. Два класса из четырех должны быть checked исключениями.
 4. Два класса из четырех должны быть unchecked исключениями.*/
 
+import java.io.IOException;
+import java.nio.file.FileSystemNotFoundException;
+
 public class Solution {
     public static void main(String[] args) {
     }
 
-    static class MyException {
+    static class MyException extends FileSystemNotFoundException {   // В классе Solution должно быть 4 вложенных класса: MyException
     }
-
-    static class MyException2 {
+//3. Два класса из четырех должны быть checked исключениями.
+    static class MyException2 extends IOException { /// В классе Solution должно быть 4 вложенных класса: MyException2
     }
-
-    static class MyException3 {
+//3. Два класса из четырех должны быть checked исключениями.
+    static class MyException3 extends RuntimeException{ // В классе Solution должно быть 4 вложенных класса: MyException3
     }
-
-    static class MyException4 {
+//4. Два класса из четырех должны быть unchecked исключениями.
+    static class MyException4 extends IndexOutOfBoundsException{ // В классе Solution должно быть 4 вложенных класса: MyException4
     }
+//4. Два класса из четырех должны быть unchecked исключениями.
 }
 

@@ -1,9 +1,12 @@
 package task1019;
 
+import com.sun.jdi.Value;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /* 
@@ -43,10 +46,20 @@ Requirements:
 public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        int id = Integer.parseInt(reader.readLine());
-        String name = reader.readLine();
-
-        System.out.println("Id=" + id + " Name=" + name);
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+        int id = 0;// = Integer.parseInt(reader.readLine());
+        String name;// = reader.readLine();
+        while (true) {
+            try {
+                id = Integer.parseInt(reader.readLine());
+                name = reader.readLine();
+                map.put(name, id);
+            } catch (NumberFormatException e) {
+                break;
+            }
+        }
+        for (HashMap.Entry<String, Integer> pair : map.entrySet())
+            System.out.println(pair.getValue() + " " + pair.getKey());
+//        System.out.println("Id=" + id + " Name=" + name);
     }
 }

@@ -1,49 +1,64 @@
+import java.util.logging.Logger;
+
 /**
- * РўСЂР°Р№ СЃ СЂРµСЃСѓСЂСЃР°РјРё
- * Р”Р»СЏ РїСЂРёРјРµСЂР° Рё СѓРїСЂРѕС‰РµРЅРёСЏ, РІР°Рј СѓР¶Рµ РґР°РЅС‹ 2 РєР»Р°СЃСЃР° РёРјРїР»РµРјРµРЅС‚РёСЂСѓСЋС‰РёРµ РёРЅС‚РµСЂС„РµР№СЃ AutoCloseable
- * Р›СЋР±РѕР№ РєР»Р°СЃСЃ, РєРѕС‚РѕСЂС‹Р№ РёРјРїР»РµРјРµРЅС‚РёС‚ РґР°РЅРЅС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РёР»Рё РёРЅС‚РµСЂС„РµР№СЃ Closeable, СЏРІР»СЏРµС‚СЃСЏ СЂРµСЃСѓСЂСЃРѕРј.
- * РўР°Рє Р¶Рµ СЂРµСЃСѓСЂСЃР°РјРё РІ JAVA СЏРІР»СЏСЋС‚СЃСЏ РїСЂР°РєС‚РёС‡РµСЃРєРё РІСЃС‘ IO/NIO Рё РєР»Р°СЃСЃС‹ С‚СЂРµР±СѓСЋС‰РёРµ Р·Р°РєСЂС‹С‚РёСЏ (РЅР°РїСЂ. РїСЂРё СЂР°Р±РѕС‚Рµ СЃ Р‘Р”)
- *
- * Р—Р°РґР°С‡Р°:
- * 1. РСЃРїРѕР»СЊР·СѓСЏ РєРѕРЅСЃС‚СЂСѓРєС†РёСЋ "РўСЂР°Р№ СЃ СЂРµСЃСѓСЂСЃР°РјРё", РћР”РќРћР’Р Р•РњР•РќРќРћ РІС‹Р·РІР°С‚СЊ РѕР±Р° СЌС‚РёС… РєР»Р°СЃСЃР° Рё РїРѕСЃРјРѕС‚СЂРµС‚СЊ РЅР° С‚Рѕ, РєР°РєРёРј РѕР±СЂР°Р·РѕРј
- * СЂРµСЃСѓСЂСЃС‹ Р±СѓРґСѓС‚ СЃРЅР°С‡Р°Р»Р° РѕС‚РєСЂС‹С‚С‹, РѕС‚СЂР°Р±РѕС‚Р°РЅС‹, Р° Р·Р°С‚РµРј Р·Р°РєСЂС‹С‚С‹.
- * 2. Р—Р°РјРµРЅРёС‚СЊ РІС‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёР№ РІ РєРѕРЅСЃРѕР»СЊ, РЅР° Р»РѕРіРёСЂРѕРІР°РЅРёРµ СѓСЂРѕРІРЅСЏ INFO
+ * Трай с ресурсами
+ * Для примера и упрощения, вам уже даны 2 класса имплементирующие интерфейс AutoCloseable
+ * Любой класс, который имплементит данный интерфейс или интерфейс Closeable, является ресурсом.
+ * Так же ресурсами в JAVA являются практически всё IO/NIO и классы требующие закрытия (напр. при работе с БД)
+ * <p>
+ * Задача:
+ * 1. Используя конструкцию "Трай с ресурсами", ОДНОВРЕМЕННО вызвать оба этих класса и посмотреть на то, каким образом
+ * ресурсы будут сначала открыты, отработаны, а затем закрыты.
+ * 2. Заменить вывод сообщений в консоль, на логирование уровня INFO
  */
 public class Main {
-    public static void main(String[] args) {
-
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+    public static void main(String[] args) throws Exception {
+        try (AutoCloseableResourcesFirst autoCloseableResourcesFirst = new AutoCloseableResourcesFirst();
+             AutoCloseableResourcesSecond autoCloseableResourcesSecond = new AutoCloseableResourcesSecond()) {
+            autoCloseableResourcesFirst.doSomething();
+            autoCloseableResourcesSecond.doSomething();
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }
     }
 }
 
 class AutoCloseableResourcesFirst implements AutoCloseable {
-
+    private static final Logger loggerFirst = Logger.getLogger(Main.class.getName()); //Добавил логер в классы
     public AutoCloseableResourcesFirst() {
-        System.out.println("Р’С‹Р·РѕРІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° -> AutoCloseableResources_First");
+        loggerFirst.info("Заменить вывод сообщений в консоль, на логирование(первый логер) уровня INFO");
+        //System.out.println("Вызов конструктора -> AutoCloseableResources_First");
     }
 
     public void doSomething() {
-        System.out.println("РљР°РєРѕР№ С‚Рѕ РјРµС‚РѕРґ -> AutoCloseableResources_First");
+        loggerFirst.info("Заменить вывод сообщений в консоль, на логирование(первый логер) уровня INFO");
+        //System.out.println("Какой то метод -> AutoCloseableResources_First");
     }
 
     @Override
     public void close() throws Exception {
-        System.out.println("Р—РђРљР Р«Р’РђР•Рњ СЂРµСЃСѓСЂСЃ -> AutoCloseableResources_First");
+        loggerFirst.info("Заменить вывод сообщений в консоль, на логирование(первый логер) уровня INFO");
+        //System.out.println("ЗАКРЫВАЕМ ресурс -> AutoCloseableResources_First");
     }
 }
 
 
 class AutoCloseableResourcesSecond implements AutoCloseable {
-
+    private static final Logger loggerSecond = Logger.getLogger(Main.class.getName()); //Добавил логер в классы
     public AutoCloseableResourcesSecond() {
-        System.out.println("Р’С‹Р·РѕРІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° -> AutoCloseableResources_Second");
+        loggerSecond.info("Заменить вывод сообщений в консоль, на логирование(второй логер) уровня INFO");
+        //System.out.println("Вызов конструктора -> AutoCloseableResources_Second");
     }
 
     public void doSomething() {
-        System.out.println("РљР°РєРѕР№ С‚Рѕ РјРµС‚РѕРґ -> AutoCloseableResources_Second");
+        loggerSecond.info("Заменить вывод сообщений в консоль, на логирование(второй логер) уровня INFO");
+        //System.out.println("Какой то метод -> AutoCloseableResources_Second");
     }
 
     @Override
     public void close() throws Exception {
-        System.out.println("Р—РђРљР Р«Р’РђР•Рњ СЂРµСЃСѓСЂСЃ -> AutoCloseableResources_Second");
+        loggerSecond.info("Заменить вывод сообщений в консоль, на логирование(второй логер) уровня INFO");
+        //System.out.println("ЗАКРЫВАЕМ ресурс -> AutoCloseableResources_Second");
     }
 }

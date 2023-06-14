@@ -12,6 +12,7 @@ Requirements:
 3. Каждый метод должен возвращать имя метода, вызвавшего его.
 4. Для получения имени вызвавшего метода, используй метод getMethodName.*/
 
+
 public class Solution {
     public static void main(String[] args) {
         method1();
@@ -19,25 +20,35 @@ public class Solution {
 
     public static String method1() {
         method2();
-        //напишите тут ваш код
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println((stackTraceElements[2].getMethodName()));
+        return stackTraceElements[2].getMethodName(); //напишите тут ваш код
     }
 
     public static String method2() {
         method3();
-        //напишите тут ваш код
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println((stackTraceElements[2].getMethodName()));
+        return stackTraceElements[2].getMethodName();//напишите тут ваш код
     }
 
     public static String method3() {
         method4();
-        //напишите тут ваш код
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println((stackTraceElements[2].getMethodName()));
+        return stackTraceElements[2].getMethodName();//напишите тут ваш код
     }
 
     public static String method4() {
         method5();
-        //напишите тут ваш код
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println((stackTraceElements[2].getMethodName()));
+        return stackTraceElements[2].getMethodName();//напишите тут ваш код
     }
 
     public static String method5() {
-        //напишите тут ваш код
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        System.out.println((stackTraceElements[2].getMethodName()));
+        return stackTraceElements[2].getMethodName();//напишите тут ваш код
     }
 }

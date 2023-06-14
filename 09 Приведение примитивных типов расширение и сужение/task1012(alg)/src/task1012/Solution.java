@@ -2,48 +2,142 @@ package task1012;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /* 
-РљРѕР»РёС‡РµСЃС‚РІРѕ Р±СѓРєРІ
-Р’РІРµРґРё СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ 10 СЃС‚СЂРѕС‡РµРє Рё РїРѕСЃС‡РёС‚Р°Р№ РІ РЅРёС… РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… Р±СѓРєРІ Р±РµР· СѓС‡РµС‚Р° СЂРµРіРёСЃС‚СЂР°. Р РµР·СѓР»СЊС‚Р°С‚ РІС‹РІРµРґРё РЅР° СЌРєСЂР°РЅ РІ Р°Р»С„Р°РІРёС‚РЅРѕРј РїРѕСЂСЏРґРєРµ.
+Количество букв
+Введи с клавиатуры 10 строчек и посчитай в них количество различных букв без учета регистра. Результат выведи на экран в алфавитном порядке.
 
-РџСЂРёРјРµСЂ РІС‹РІРѕРґР°:
-Р° 5
-Р± 8
-РІ 3
-Рі 7
-Рґ 0
+Пример вывода:
+а 5
+б 8
+в 3
+г 7
+д 0
 ...
-СЏ 9
+я 9
 
 
 Requirements:
-1. РџСЂРѕРіСЂР°РјРјР° РґРѕР»Р¶РЅР° 10 СЂР°Р· СЃС‡РёС‚С‹РІР°С‚СЊ РґР°РЅРЅС‹Рµ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹.
-2. РџСЂРѕРіСЂР°РјРјР° РґРѕР»Р¶РЅР° РІС‹РІРѕРґРёС‚СЊ С‚РµРєСЃС‚ РЅР° СЌРєСЂР°РЅ.
-3. Р’С‹РІРµРґРµРЅРЅС‹Р№ С‚РµРєСЃС‚ РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ 33 СЃС‚СЂРѕРєРё.
-4. РљР°Р¶РґР°СЏ СЃС‚СЂРѕРєР° РІС‹РІРѕРґР° РґРѕР»Р¶РЅР° СЃРѕРґРµСЂР¶Р°С‚СЊ Р±СѓРєРІСѓ СЂСѓСЃСЃРєРѕРіРѕ Р°Р»С„Р°РІРёС‚Р°, РїСЂРѕР±РµР» Рё РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·, РєРѕС‚РѕСЂРѕРµ Р±СѓРєРІР° РІСЃС‚СЂРµС‡Р°Р»Р°СЃСЊ РІ РІРІРµРґРµРЅРЅС‹С… СЃС‚СЂРѕРєР°С….*/
+1. Программа должна 10 раз считывать данные с клавиатуры.
+2. Программа должна выводить текст на экран.
+3. Выведенный текст должен содержать 33 строки.
+4. Каждая строка вывода должна содержать букву русского алфавита, пробел и количество раз, которое буква встречалась в введенных строках.*/
 
 public class Solution {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        // РђР»С„Р°РІРёС‚
-        List<Character> alphabet = Arrays.asList(
-                'Р°', 'Р±', 'РІ', 'Рі', 'Рґ', 'Рµ', 'С‘', 'Р¶',
-                'Р·', 'Рё', 'Р№', 'Рє', 'Р»', 'Рј', 'РЅ', 'Рѕ',
-                'Рї', 'СЂ', 'СЃ', 'С‚', 'Сѓ', 'С„', 'С…', 'С†',
-                'С‡', 'С€', 'С‰', 'СЉ', 'С‹', 'СЊ', 'СЌ', 'СЋ', 'СЏ');
-
-        // Р’РІРѕРґ СЃС‚СЂРѕРє
-        ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
-            String line = reader.readLine();
-            list.add(line.toLowerCase());
+        // Алфавит
+//        List<Character> alphabet = Arrays.asList(
+//                'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж',
+//                'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о',
+//                'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц',
+//                'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я');
+        String alphabetS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+        char[] alphabetSArray = alphabetS.toCharArray();
+        ArrayList<Character> alphabet = new ArrayList<Character>();  //Создал массив для символов
+        for (int i = 0; i < alphabetSArray.length; i++)
+        {
+            alphabet.add(alphabetSArray[i]);  //Заполнил массив для символов элементами из строки алфавит
         }
 
-        // РЅР°РїРёС€РёС‚Рµ С‚СѓС‚ РІР°С€ РєРѕРґ
+        ArrayList<String> list = new ArrayList<String>();  //Массив для вводимых строк
+        for (int i = 0; i < 10; i++)
+        {
+            String s = reader.readLine();  //Считал строку
+            list.add(s.toLowerCase());     //Заполнил лист строками с ридера
+        }
+        int num = 0;
+        for (int j = 0; j < alphabet.size(); j++)           //Проходимся по алфавиту
+        {
+            for (int i = 0; i < list.size(); i++)           //Проходимся по строкам с ридера
+            {
+                char[] ok = list.get(i).toCharArray();           //Проверяем по порядку каждый символ строки на совпадение с алфавитом
+                for (int k = 0; k < ok.length; k++)          //пробежались по строке
+                {
+                    if (ok[k] == alphabetSArray[j])  //Если символ из алфавита равен символу из строки, инкрементим счётчик
+                        num += 1;
+                }
+            }
+//            System.out.println(alphabetSArray[1]);
+            System.out.println(alphabetSArray[j] + " " + num); //Выводим символ алфавита и его счетчик
+            num = 0; //обнуляем счетчик перед переходом на новый символ алфавита!!!
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        char[]abcArray = alphabetS.toCharArray();
+//        ArrayList<Character>alphabet = new ArrayList<Character>();
+//        for(int i =0;i<abcArray.length;i++){
+//            alphabet.add(abcArray[i]);
+//        }
+//
+//        // Ввод строк
+//        ArrayList<String> list = new ArrayList<String>();
+//        for (int i = 0; i < 5; i++) {
+//            String line = reader.readLine();
+//            list.add(line.toLowerCase());
+//        }
+//
+//        ArrayList<Character[]> listChar = new ArrayList<>(); //Объявили новый динамический массив символов
+//        for (int i = 0; i < alphabet.size(); i++) {
+//            Character[] ch = new Character[list.get(i).length()]; //Объявили размер массива для символов
+//            for (int j = 0; j < list.get(i).length(); j++) {
+//                ch[j] = list.get(i).charAt(j); // заполнили массив символов
+//            }
+//            listChar.add(ch); //Заполнили динамический массив
+//        }
+//        LinkedHashMap<Character, Integer> differentLetters = new LinkedHashMap<>();
+//        for (Character i : alphabet) {
+//            differentLetters.put(i, 0);
+//        }
+//        for (HashMap.Entry<Character, Integer> pair : differentLetters.entrySet()) {
+//            Integer count = 1;
+//            for (Character[]mass:listChar){
+//                for (int i =0;i<mass.length;i++){
+//                    if (pair.getKey().equals(mass[i])){
+//                        pair.setValue(count++);
+//                    }
+//                }
+//            }
+//        }
+//        for (HashMap.Entry<Character,Integer> pair: differentLetters.entrySet()){
+//            System.out.println(pair.getKey()+" "+pair.getValue());
+//        }
+//    }
+//}
+//// напишите тут ваш код
+

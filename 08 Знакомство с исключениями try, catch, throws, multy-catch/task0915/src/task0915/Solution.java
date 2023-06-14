@@ -5,39 +5,52 @@ import java.io.IOException;
 import java.nio.file.FileSystemException;
 
 /* 
-РџРµСЂРµС…РІР°С‚ РІС‹Р±РѕСЂРѕС‡РЅС‹С… РёСЃРєР»СЋС‡РµРЅРёР№
-1. Р Р°Р·Р±РµСЂРёСЃСЊ, РєР°РєРёРµ РёСЃРєР»СЋС‡РµРЅРёСЏ Р±СЂРѕСЃР°РµС‚ РјРµС‚РѕРґ BEAN.methodThrowExceptions.
-2. РњРµС‚РѕРґ handleExceptions РґРѕР»Р¶РµРЅ РІС‹Р·С‹РІР°С‚СЊ РјРµС‚РѕРґ BEAN.methodThrowExceptions Рё РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ РёСЃРєР»СЋС‡РµРЅРёСЏ:
-2.1. РµСЃР»Рё РІРѕР·РЅРёРєР»Рѕ РёСЃРєР»СЋС‡РµРЅРёРµ FileSystemException, С‚Рѕ Р»РѕРіРёСЂРѕРІР°С‚СЊ РµРіРѕ (РІС‹Р·РІР°С‚СЊ РјРµС‚РѕРґ BEAN.log) Рё РїСЂРѕР±СЂРѕСЃРёС‚СЊ РґР°Р»СЊС€Рµ
-2.2. РµСЃР»Рё РІРѕР·РЅРёРєР»Рѕ РёСЃРєР»СЋС‡РµРЅРёРµ CharConversionException РёР»Рё Р»СЋР±РѕРµ РґСЂСѓРіРѕРµ IOException, С‚Рѕ С‚РѕР»СЊРєРѕ Р»РѕРіРёСЂРѕРІР°С‚СЊ РµРіРѕ (РІС‹Р·РІР°С‚СЊ РјРµС‚РѕРґ BEAN.log)
-3. Р”РѕР±Р°РІСЊ РІ РѕР±СЉСЏРІР»РµРЅРёРµ РјРµС‚РѕРґР° handleExceptions РєР»Р°СЃСЃ РёСЃРєР»СЋС‡РµРЅРёСЏ, РєРѕС‚РѕСЂРѕРµ С‚С‹ РїСЂРѕР±СЂР°СЃС‹РІР°РµС€СЊ РІ Рї.2.1.
-4. Р’ РјРµС‚РѕРґРµ main РѕР±СЂР°Р±РѕС‚Р°Р№ РѕСЃС‚Р°РІС€РµРµСЃСЏ РёСЃРєР»СЋС‡РµРЅРёРµ - Р»РѕРіРёСЂСѓР№ РµРіРѕ. РСЃРїРѕР»СЊР·СѓР№ try..catch
+Перехват выборочных исключений
+1. Разберись, какие исключения бросает метод BEAN.methodThrowExceptions.
+2. Метод handleExceptions должен вызывать метод BEAN.methodThrowExceptions и обрабатывать исключения:
+2.1. если возникло исключение FileSystemException, то логировать его (вызвать метод BEAN.log) и пробросить дальше
+2.2. если возникло исключение CharConversionException или любое другое IOException, то только логировать его (вызвать метод BEAN.log)
+3. Добавь в объявление метода handleExceptions класс исключения, которое ты пробрасываешь в п.2.1.
+4. В методе main обработай оставшееся исключение - логируй его. Используй try..catch
 
-РџРѕРґСЃРєР°Р·РєР°:
-Р•СЃР»Рё С‚С‹ Р·Р°С…РІР°С‚РёР» РёСЃРєР»СЋС‡РµРЅРёРµ MyException, РєРѕС‚РѕСЂРѕРµ РЅРµ С…РѕС‚РµР» Р·Р°С…РІР°С‚С‹РІР°С‚СЊ, РµРіРѕ РјРѕР¶РЅРѕ РїСЂРѕР±СЂРѕСЃРёС‚СЊ РґР°Р»СЊС€Рµ РєРѕРґРѕРј РІРёРґР°:
+Подсказка:
+Если ты захватил исключение MyException, которое не хотел захватывать, его можно пробросить дальше кодом вида:
 catch (MyException e) {
  throw e;
 }
 
 
 Requirements:
-1. РњРµС‚РѕРґ handleExceptions РґРѕР»Р¶РµРЅ РІС‹Р·С‹РІР°С‚СЊ РјРµС‚РѕРґ BEAN.methodThrowExceptions.
-2. РњРµС‚РѕРґ handleExceptions РґРѕР»Р¶РµРЅ Р»РѕРіРёСЂРѕРІР°С‚СЊ РёСЃРєР»СЋС‡РµРЅРёРµ FileSystemException (РІС‹Р·РІР°С‚СЊ РјРµС‚РѕРґ BEAN.log), Р° Р·Р°С‚РµРј РїСЂРѕР±СЂРѕСЃРёС‚СЊ РµРіРѕ РґР°Р»СЊС€Рµ.
-3. РњРµС‚РѕРґ handleExceptions РґРѕР»Р¶РµРЅ С‚РѕР»СЊРєРѕ Р»РѕРіРёСЂРѕРІР°С‚СЊ (РІС‹Р·РІР°С‚СЊ РјРµС‚РѕРґ BEAN.log) РёСЃРєР»СЋС‡РµРЅРёРµ CharConversionException.
-4. РњРµС‚РѕРґ handleExceptions РґРѕР»Р¶РµРЅ С‚РѕР»СЊРєРѕ Р»РѕРіРёСЂРѕРІР°С‚СЊ Р»СЋР±РѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ IOException.
-5. Р”РѕР±Р°РІСЊ РІ РѕР±СЉСЏРІР»РµРЅРёРµ РјРµС‚РѕРґР° handleExceptions РєР»Р°СЃСЃ РёСЃРєР»СЋС‡РµРЅРёСЏ FileSystemException.
-6. РњРµС‚РѕРґ main РґРѕР»Р¶РµРЅ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ try..catch.
-7. РњРµС‚РѕРґ main РґРѕР»Р¶РµРЅ Р»РѕРіРёСЂРѕРІР°С‚СЊ РёСЃРєР»СЋС‡РµРЅРёСЏ, РєРѕС‚РѕСЂС‹Рµ РєРёРґР°РµС‚ РјРµС‚РѕРґ handleExceptions.*/
+1. Метод handleExceptions должен вызывать метод BEAN.methodThrowExceptions.
+2. Метод handleExceptions должен логировать исключение FileSystemException (вызвать метод BEAN.log), а затем пробросить его дальше.
+3. Метод handleExceptions должен только логировать (вызвать метод BEAN.log) исключение CharConversionException.
+4. Метод handleExceptions должен только логировать любое исключение IOException.
+5. Добавь в объявление метода handleExceptions класс исключения FileSystemException.
+6. Метод main должен использовать try..catch.
+7. Метод main должен логировать исключения, которые кидает метод handleExceptions.*/
 
 public class Solution {
     public static StatelessBean BEAN = new StatelessBean();
 
-    public static void main(String[] args) {
-        handleExceptions();
+    public static void main(String[] args)  {
+        try {
+            handleExceptions();
+        }catch (FileSystemException e){ //6. Метод main должен использовать try..catch.
+            BEAN.log(e); //7. Метод main должен логировать исключения, которые кидает метод handleExceptions.*/
+        }
     }
 
-    public static void handleExceptions() {
-        BEAN.methodThrowExceptions();
+    public static void handleExceptions() throws FileSystemException { //5. Добавь в объявление метода handleExceptions класс исключения FileSystemException.
+        try {
+            BEAN.methodThrowExceptions();
+        } catch (FileSystemException e) { //Метод handleExceptions должен логировать исключение FileSystemException (вызвать метод BEAN.log), а затем пробросить его дальше.
+            BEAN.log(e);
+            throw e;
+        }catch (CharConversionException e){
+            BEAN.log(e); //Метод handleExceptions должен только логировать (вызвать метод BEAN.log) исключение CharConversionException.
+        }catch (IOException e){
+            BEAN.log(e); //4. Метод handleExceptions должен только логировать любое исключение IOException.
+        }
     }
 
     public static class StatelessBean {
@@ -50,7 +63,7 @@ public class Solution {
             if (i == 0) {
                 throw new CharConversionException();
             } else if (i == 1) {
-                throw new FileSystemException("");
+                throw new FileSystemException("ауа");
             } else if (i == 2) {
                 throw new IOException();
             }
