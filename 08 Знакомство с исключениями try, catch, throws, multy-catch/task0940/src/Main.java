@@ -25,7 +25,7 @@ public class Main {
 }
 
 class AutoCloseableResourcesFirst implements AutoCloseable {
-    private static final Logger loggerFirst = Logger.getLogger(Main.class.getName()); //Добавил логер в классы
+    private static final Logger loggerFirst = Logger.getLogger(AutoCloseableResourcesFirst.class.getName()); //Добавил логер в классы
     public AutoCloseableResourcesFirst() {
         loggerFirst.info("Заменить вывод сообщений в консоль, на логирование(первый логер) уровня INFO");
         //System.out.println("Вызов конструктора -> AutoCloseableResources_First");
@@ -45,7 +45,7 @@ class AutoCloseableResourcesFirst implements AutoCloseable {
 
 
 class AutoCloseableResourcesSecond implements AutoCloseable {
-    private static final Logger loggerSecond = Logger.getLogger(Main.class.getName()); //Добавил логер в классы
+    private static final Logger loggerSecond = Logger.getLogger(AutoCloseableResourcesSecond.class.getName()); //Добавил логер в классы
     public AutoCloseableResourcesSecond() {
         loggerSecond.info("Заменить вывод сообщений в консоль, на логирование(второй логер) уровня INFO");
         //System.out.println("Вызов конструктора -> AutoCloseableResources_Second");
